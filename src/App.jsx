@@ -10,7 +10,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <Button type = 'primary' onClick={this.handleClick}>
-          hjkfshfhk
+          hjkfshfhkdsafsdfsafafafdsafasfafsaf
         </Button>
       </div>
     )
