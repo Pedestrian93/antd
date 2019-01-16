@@ -14,6 +14,7 @@ import App from './App'
 const user = storageUtils.getUser()
 
 if (user && user.data._id) {
+
   MemoryUtils.user = user
 }
 
