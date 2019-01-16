@@ -6,14 +6,10 @@ import Login from './pages/login/login'
 import Admin from './pages/admin/admin'
 
 
-export default class App extends Component {
-  handleClick = () => {
-    message.info('点了')
-  }
+class App extends Component {
 
   render() {
     return (
-
       <BrowserRouter>
         <Switch>
           <Route path='/login' component={Login}/>
@@ -26,7 +22,7 @@ export default class App extends Component {
 
 
 
-
+export default App
 
 
 

@@ -8,12 +8,13 @@
     "draftjs-to-html": "^0.8.4",
     "echarts": "^4.2.0-rc.2",
     "echarts-for-react": "^2.0.15-beta.0",
-    "prop-types": "15.6.2",
     "jsonp": "^0.2.1",
+    "prop-types": "15.6.2",
     "pubsub-js": "^1.7.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "store": "^2.0.12"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -38,6 +39,3 @@
   },
   "proxy": "http://localhost:5000"
 }
-
-
-

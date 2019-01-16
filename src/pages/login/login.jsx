@@ -1,11 +1,31 @@
 import React, {Component} from 'react'
 import {Form, Input, Button, Icon} from 'antd'
+import PropTypes from 'prop-types'
+import MemoryUtils from '../../utils/MemoryUtils'
+
 import logo from '../../assets/images/logo.png'
 import './index.less'
+import {reqLogin} from '../../api'
+import storageUtils from '../../utils/storageUtils'
 
 
+export default class Login extends Component {
 
-export default class  extends Component {
+  login = async (username, password) => {
+    const user = await reqLogin(username, password)
+    if (user.status === 0) {
+      //save the data
+      storageUtils.saveUser(user)
+      MemoryUtils.user = user
+
+      this.props.history.replace('/')
+    }
+
+    else if (user.status === 1) {
+
+    }
+  }
+
   render() {
     return (
       <div className='login'>
@@ -16,7 +36,7 @@ export default class  extends Component {
         <div className="login-content">
           <div className="login-box">
             <div className="title">用户登陆</div>
-            <LoginForm/>
+            <LoginForm login = {this.login}/>
           </div>
         </div>
       </div>
@@ -26,13 +46,17 @@ export default class  extends Component {
 }
 
 class LoginForm extends Component {
+  static propTypes = {
+    login: PropTypes.func.isRequired
+  }
 
   handleSubmit = (e) => {
      e.preventDefault()
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-         console.log(values)
+
+        this.props.login(values.username, values.password)
       }
       else {
         this.props.form.resetFields()
@@ -67,7 +91,7 @@ class LoginForm extends Component {
               {validator: this.validator},
             ],
 
-            initialValue:'San'
+            initialValue:'admin'
           })(
             <Input placeholder="用户名" prefix={<Icon type="user"/>}/>
           )}
@@ -89,22 +113,6 @@ class LoginForm extends Component {
           )}
 
         </Form.Item>
-
-
-        <Form.Item>
-          {getFieldDecorator('test', {
-            rules: [
-              {whitespace: false},
-              {type: 'number'}
-            ],
-
-
-          })(
-            <Input placeholder="test, must be num" prefix={<Icon type="eye" />}/>
-          )}
-
-        </Form.Item>
-
 
         <Form.Item>
           <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
