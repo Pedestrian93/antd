@@ -55,24 +55,24 @@ class Header extends Component {
   }
 
   getCurrentMenuName = (path) => {
-    let currentMenuName
+    let result
     for (let i = 0; i < menuList.length; i++) {
       let item = menuList[i]
       if (item.key == path) {
-        currentMenuName = menuList[i].title
+        result = menuList[i].title
         break
       }
       else if (item.children) {
         for (let j = 0; j < item.children.length; j++) {
-          let item2 = menuList[j]
+          let item2 = item.children[j]
           if (item2.key == path) {
-            currentMenuName = menuList[i].title
+            result = item.children[j].title
             break
           }
         }
       }
     }
-    this.state.currentMenuName = currentMenuName
+    this.state.currentMenuName = result
   }
 
   componentWillUnmount () {
@@ -81,19 +81,13 @@ class Header extends Component {
 
   componentDidMount() {
     this.getTime()
-
-    this.getCurrentPath()
-
-    this.getCurrentMenuName(this.state.path)
-
   }
 
   render() {
 
-    // const username = MemoryUtils.user.data.username
-    // const path = this.props.location.pathname
-    // const menuName = this.getMenuName(path)
-    // console.log(this.state.path)
+    this.getCurrentPath()
+
+    this.getCurrentMenuName(this.state.path)
 
     return (
       <div className="header">

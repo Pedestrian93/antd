@@ -64,6 +64,10 @@ class LoginForm extends Component {
     })
   }
 
+  handleKeyDown = (e) => {
+    this.handleSubmit()
+  }
+
   validator (rule,value,callback) {
   if(!value) {
     callback('请输入用户名')
@@ -84,7 +88,7 @@ class LoginForm extends Component {
     const {getFieldDecorator} = this.props.form
 
     return (
-      <Form className="login-form" onSubmit={this.handleSubmit}>
+      <Form className="login-form" onSubmit={this.handleSubmit} onKeypress={(e)=>{this.handleKeyDown(e);}}>
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [

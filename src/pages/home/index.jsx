@@ -1,5 +1,5 @@
 import React from 'react'
-import './home.less'
+import './index.less'
 
 /*
 Home路由组件

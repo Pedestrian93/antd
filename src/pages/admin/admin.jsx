@@ -7,8 +7,8 @@ import Footer from '../../components/footer/footer'
 import Header from '../../components/header/header'
 import LeftNav from '../left-nav/left-nav.jsx'
 
-import Home from '../home/home'
-
+import Home from '../home/index'
+import Category from '../category'
 
 
 import './admin.less'
@@ -45,6 +45,7 @@ export default class Admin extends Component {
           <div className="content">
             <Switch>
               <Route path='/home' component={Home}/>
+              <Route path='/category' component={Category}/>
 
               <Redirect to='/home'/>
             </Switch>
