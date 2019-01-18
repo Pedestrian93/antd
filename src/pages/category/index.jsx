@@ -7,6 +7,7 @@ import {
   Card,
   Tag,
   Divider,
+  Icon,
   Input,
   Modal,
   Select,
@@ -113,6 +114,15 @@ export default class Category extends Component {
     console.log('current categories', this.state.parentId)
   }
 
+  showCategories = () => {
+    this.setState ({
+      parentId: '0',
+      parentName: '',
+      subCategories: []
+    }, () => {
+      this.getCategory()
+    })
+  }
 
 
   addCategory = async () => {
@@ -141,6 +151,7 @@ export default class Category extends Component {
       isShowUpdate,
       addCategory,
       parentId,
+      parentName,
       subCategories
     } = this.state
 
@@ -179,7 +190,18 @@ export default class Category extends Component {
     return (
       <div>
         <Card style={ {width: '100%' }}>
-          <span style = {{fontSize: '25px'}}>列表名字</span>
+          {
+            parentId === '0'
+            ? <span style = {{fontSize: '25px'}}>一级分类列表</span>
+            : (
+                <span style = {{fontSize: '20px'}}>
+                  <a href="##" onClick={this.showCategories}>一级列表</a>
+                  <Icon type = 'arrow-right'/>
+                  <span>{parentName}</span>
+                </span>
+              )
+
+          }
           <Button className='ant-btn-primary' style = {{float: 'right'}} onClick={this.addCategoryShow}>
             +添加品类
           </Button>
