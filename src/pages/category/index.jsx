@@ -24,22 +24,33 @@ const Option = Select.Option
 export default class Category extends Component {
 
   state = {
-    parentId: 0,
+    parentId: '0',
+    parentName: '',
     categories: [],
+    subCategories: [],
     isShowUpdate: false,
     addCategory: false,
     isShowDeleteCategory: false,
   }
 
+
+  //get first or second level of category
   getCategory = async () => {
-    console.log(this.state.parentId)
-    const result = await reqCategory(this.state.parentId)
-    console.log(result)
+    const {parentId} = this.state
+    const result = await reqCategory(parentId)
     if (result.status === 0) {
       const categories = result.data
-      this.setState({
-        categories
-      })
+      if (parentId === '0') {
+        this.setState({
+          categories
+        })
+      }
+      else {
+        this.setState({
+          subCategories: categories
+        })
+      }
+      console.log(categories, 'all of the categories')
     }
   }
 
@@ -49,7 +60,6 @@ export default class Category extends Component {
 
   componentDidMount () {
     this.getCategory()
-    console.log('did mount')
 
   }
 
@@ -92,6 +102,17 @@ export default class Category extends Component {
 
   //TODO
 
+  showSubCategory = (category) => {
+    this.setState ({
+      parentId: category._id,
+      parentName:category.name
+    }, () => {
+      this.getCategory()
+    })
+
+    console.log('current categories', this.state.parentId)
+  }
+
 
 
   addCategory = async () => {
@@ -118,7 +139,9 @@ export default class Category extends Component {
     const {
       categories,
       isShowUpdate,
-      addCategory
+      addCategory,
+      parentId,
+      subCategories
     } = this.state
 
     // console.log(categories, 'categories')
@@ -146,7 +169,7 @@ export default class Category extends Component {
         <Divider type="vertical" />
           &nbsp;&nbsp;
 
-          <a href="##" onClick={this.deleteCategory}>查看子分类</a>
+          <a href="##" onClick={() => this.showSubCategory(category)}>查看子分类</a>
         </span>
       ),
       }
@@ -168,7 +191,7 @@ export default class Category extends Component {
             {defaultPageSize: 4, showQuickJumper: true, hideOnSinglePage: true}
           }
           columns={columns}
-          dataSource={categories} />
+          dataSource={parentId.toString() === '0' ? categories : subCategories} />
 
         {/*{modal of update categoryName}*/}
         <Modal visible={this.state.isShowUpdate}
