@@ -41,4 +41,14 @@ export const reqAddCategory = (parentId, categoryName) =>
 export const reqUpdateCategory = (categoryId, categoryName) =>
   ajax('/manage/category/update', {categoryId, categoryName}, 'POST')
 
-//
+//get Products list
+export const reqProducts = (pageNum, pageSize) =>
+  ajax('/manage/product/list', {pageNum, pageSize})
+
+// 搜索商品分页列表
+// searchType: productDesc/ productName
+export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) => ajax('/manage/product/search', {
+  pageNum,
+  pageSize,
+  [searchType]: searchName
+})
