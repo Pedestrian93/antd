@@ -36,8 +36,8 @@ export default class Category extends Component {
 
 
   //get first or second level of category
-  getCategory = async () => {
-    const {parentId} = this.state
+  getCategory = async (pID) => {
+    const parentId = pID || this.state.parentId
     const result = await reqCategory(parentId)
     if (result.status === 0) {
       const categories = result.data
@@ -136,12 +136,15 @@ export default class Category extends Component {
     const result = await reqAddCategory(parentId, categoryName)
     if (result.status ===0) {
       message.success('已成功新增分类！')
-      if(+parentId === this.state.parentId) {
-        this.getCategory()
+      if(+parentId === this.state.parentId || parentId === '0') {
+        this.getCategory(parentId)
       }
     } else {
       message.error('添加失败！')
     }
+  // TODO
+    //需要在二级菜单中 新增菜单时 避免重新渲染（多余渲染）
+
 
   }
 
@@ -243,7 +246,7 @@ export default class Category extends Component {
                onOk={this.addCategory}
 
         >
-          <AddForm categories = {categories} setForm ={
+          <AddForm categories = {categories} parentId={parentId} setForm ={
             form => this.form = form
           } />
         </Modal>
@@ -291,7 +294,8 @@ class AddForm extends Component {
 
   static propTypes = {
     categories: PropTypes.array.isRequired,
-    setForm: PropTypes.func.isRequired
+    setForm: PropTypes.func.isRequired,
+    parentId: PropTypes.string.isRequired
   }
 
   componentWillMount () {
@@ -301,7 +305,7 @@ class AddForm extends Component {
 
   render() {
     const {getFieldDecorator} = this.props.form
-    const {categories} = this.props
+    const {categories, parentId} = this.props
 
     const options = categories.map(item => (
       <Option key = {item._id} value={item._id}>
@@ -314,7 +318,7 @@ class AddForm extends Component {
         <Form.Item label = '所属分类'>
           {
             getFieldDecorator('parentId', {
-              initialValue: '0'
+              initialValue: parentId
             })(
               <Select>
                 <Option value='0'> 一级分类 </Option>

@@ -9,7 +9,7 @@ import LeftNav from '../left-nav/left-nav.jsx'
 
 import Home from '../home/index'
 import Category from '../category'
-
+import Product from '../product/product'
 
 import './admin.less'
 
@@ -46,7 +46,7 @@ export default class Admin extends Component {
             <Switch>
               <Route path='/home' component={Home}/>
               <Route path='/category' component={Category}/>
-
+              <Route path="/product" component={Product}/>
               <Redirect to='/home'/>
             </Switch>
 
