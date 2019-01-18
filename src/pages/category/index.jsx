@@ -14,7 +14,7 @@ import {
 } from 'antd'
 
 import './index'
-import {reqCategory, reqAddCategory} from '../../api'
+import {reqCategory, reqAddCategory, reqUpdateCategory} from '../../api'
 
 // import Modal from "antd/lib/modal/Modal.d"
 
@@ -32,7 +32,9 @@ export default class Category extends Component {
   }
 
   getCategory = async () => {
+    console.log(this.state.parentId)
     const result = await reqCategory(this.state.parentId)
+    console.log(result)
     if (result.status === 0) {
       const categories = result.data
       this.setState({
@@ -42,22 +44,36 @@ export default class Category extends Component {
   }
 
   componentWillMount () {
-    this.getCategory()
-    // console.log(this.state.categories)
+
   }
 
-  showUpdateCategoryName = () => {
+  componentDidMount () {
+    this.getCategory()
+    console.log('did mount')
+
+  }
+
+  showUpdateCategoryName = (category) => {
+
+    console.log(category, '#######category')
     this.setState ({
       isShowUpdate: true
     })
+    this.category = category
   }
 
-  UpdateCategoryName = () => {
+  UpdateCategoryName = async () => {
+    const {category} = this
+
     this.setState ({
       isShowUpdate: false
     })
-    const a = this.form.getFieldsValue()
-    console.log(a)
+    const {categoryName} = this.form.getFieldsValue()
+    const result = await reqUpdateCategory(category._id, categoryName)
+    if (result.status === 0) {
+      this.getCategory()
+    }
+
   }
 
 
@@ -105,31 +121,40 @@ export default class Category extends Component {
       addCategory
     } = this.state
 
-    const columns = [{
+    // console.log(categories, 'categories')
+    // got the categories
+
+    const category = this.category || {}
+
+    const columns = [
+      {
       title: '分类名称',
       dataIndex: 'name',
       key: 'name',
-      render: text => <a href="javascript:;">{text}</a>,
+      render: text => <a href="##">{text}</a>,
       },
+
       {
       title: '操作',
       key: 'action',
       width: 400,
-      render: (text, record) => (
+      render: (category) => (
         <span>
-      <a href="javascript:;" onClick={this.showUpdateCategoryName}>修改分类名 </a>
+          <a href="##" onClick={()=>this.showUpdateCategoryName(category)}>修改分类名</a>
           &nbsp;&nbsp;
-      <Divider type="vertical" />
+
+        <Divider type="vertical" />
           &nbsp;&nbsp;
-          <a href="javascript:;" onClick={this.deleteCategory}>查看子分类</a>
-    </span>
+
+          <a href="##" onClick={this.deleteCategory}>查看子分类</a>
+        </span>
       ),
-    }];
-    // console.log(categories)
+      }
+    ];
+
 
     return (
       <div>
-
         <Card style={ {width: '100%' }}>
           <span style = {{fontSize: '25px'}}>列表名字</span>
           <Button className='ant-btn-primary' style = {{float: 'right'}} onClick={this.addCategoryShow}>
@@ -142,7 +167,8 @@ export default class Category extends Component {
           pagination = {
             {defaultPageSize: 4, showQuickJumper: true, hideOnSinglePage: true}
           }
-          columns={columns} dataSource={categories} />
+          columns={columns}
+          dataSource={categories} />
 
         {/*{modal of update categoryName}*/}
         <Modal visible={this.state.isShowUpdate}
@@ -153,8 +179,8 @@ export default class Category extends Component {
                    isShowUpdate: false,
                  })
                }}
-               onOk={this.UpdateCategoryName}>
-          <UpdateForm categoryName={categories.name} setForm ={
+               onOk={() => this.UpdateCategoryName(category)}>
+          <UpdateForm categoryName={category.name} setForm ={
             form => this.form = form
           }/>
         </Modal>
