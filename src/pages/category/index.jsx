@@ -224,7 +224,6 @@ class UpdateForm extends Component {
   render() {
 
     const {getFieldDecorator} = this.props.form
-
     return(
       <Form>
         <Form.Item>
@@ -232,7 +231,7 @@ class UpdateForm extends Component {
             getFieldDecorator('categoryName', {
               initialValue: ''
             })(
-              <Input placeholder={'name'}/>
+              <Input placeholder={this.props.categoryName}/>
             )
           }
         </Form.Item>
