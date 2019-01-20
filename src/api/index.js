@@ -29,7 +29,7 @@ export const getWeatherPicUrl = (city) => {
 // ajax('/manage/category/list', {parentId})
 
 // 获取一级或某个二级分类列表
-export const reqCategory = (parentId = '0') =>
+export const reqCategory = (parentId) =>
   ajax('/manage/category/list', {parentId})
 
 
@@ -52,3 +52,9 @@ export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) =
   pageSize,
   [searchType]: searchName
 })
+
+
+export const reqDeleteImg = (name) => ajax('/manage/img/delete', {name}, 'POST')
+
+
+export const reqAddUpdateCategory = (product) => ajax('/manage/product/' + (product._id ? 'update' : 'add'), product, 'POST')
