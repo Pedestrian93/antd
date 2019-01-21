@@ -33,6 +33,10 @@ export const reqCategory = (parentId) =>
   ajax('/manage/category/list', {parentId})
 
 
+// 根据分类ID获取分类
+export const reqCategoryList = (categoryId) => ajax('/manage/category/info', {categoryId})
+
+
 //add category
 export const reqAddCategory = (parentId, categoryName) =>
   ajax('/manage/category/add', {parentId, categoryName}, 'POST')
@@ -58,3 +62,10 @@ export const reqDeleteImg = (name) => ajax('/manage/img/delete', {name}, 'POST')
 
 
 export const reqAddUpdateCategory = (product) => ajax('/manage/product/' + (product._id ? 'update' : 'add'), product, 'POST')
+
+
+// 对商品进行上架/下架处理
+export const reqUpOrDownProduct = (productId, status) => ajax('/manage/product/updateStatus', {
+  productId,
+  status
+}, 'POST')
