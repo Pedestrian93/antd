@@ -10,14 +10,9 @@ import LeftNav from '../left-nav/left-nav.jsx'
 import Home from '../home/index'
 import Category from '../category'
 import Product from '../product/product'
+import Role from '../role'
 
 import './admin.less'
-
-// import Form from "antd/lib/form/Form.d"
-
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
-
 
 export default class Admin extends Component {
 
@@ -28,9 +23,6 @@ export default class Admin extends Component {
     if (!user) {
       return <Redirect to="/login"/>
     }
-
-
-
 
     return (
 
@@ -47,6 +39,7 @@ export default class Admin extends Component {
               <Route path='/home' component={Home}/>
               <Route path='/category' component={Category}/>
               <Route path="/product" component={Product}/>
+              <Route path="/role" component={Role}/>
               <Redirect to='/home'/>
             </Switch>
 

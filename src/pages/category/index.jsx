@@ -301,6 +301,11 @@ class AddForm extends Component {
   componentWillMount () {
     const form = this.props.form
     this.props.setForm(form)
+
+
+    //test
+
+    // console.log(this.props.setForm, 'setForm函数体内容')
   }
 
   render() {
